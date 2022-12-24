@@ -261,6 +261,8 @@ int main()
                 std::cout << "Error:" << std::endl;
                 std::cout << e.what() << std::endl;
             }
+            a1.clear();
+            a2.clear();
             break;
         }
         case 2:
@@ -299,6 +301,8 @@ int main()
                 std::cout << "Error:" << std::endl;
                 std::cout << e.what() << std::endl;
             }
+            b1.clear();
+            b2.clear();
             break;
         }
         case 3:
@@ -338,6 +342,8 @@ int main()
                 std::cout << "Error:" << std::endl;
                 std::cout << e.what() << std::endl;
             }
+            c1.clear();
+            c2.clear();
             break;
         }
         case 4:

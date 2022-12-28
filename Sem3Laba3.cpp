@@ -274,7 +274,9 @@ int main()
         std::cout << "1) int" << std::endl;
         std::cout << "2) float" << std::endl;
         std::cout << "3) double" << std::endl;
-        std::cout << "4) exit programm" << std::endl;
+        std::cout << "4) std::complex<float>" << std::endl;
+        std::cout << "5) std::complex<double>" << std::endl;
+        std::cout << "6) exit programm" << std::endl;
         std::cin >> what_type_square;
 
         switch (what_type_square)
@@ -402,6 +404,100 @@ int main()
             break;
         }
         case 4:
+        {
+            system("cls");
+            std::cout << "you have selected the std::complex<float> data type" << std::endl;
+            std::cout << "you have to create and fill two vectors" << std::endl;
+            std::cout << "and then the program will calculate the square of the triangle" << std::endl;
+            std::cout << "enter size of first vector: ";
+            std::cin >> array_size;
+            std::vector<std::complex<float>> f1;
+            std::vector<std::complex<float>> f2;
+            std::cout << "fill vector: " << std::endl;
+            float data_real;
+            float data_imag;
+            for (size_t i = 0; i < array_size; i++)
+            {
+                std::cout << "f" << i << "(real) = ";
+                std::cin >> data_real;
+
+                std::cout << "f" << i << "(imag) = ";
+                std::cin >> data_imag;
+                f1.push_back(std::complex<float>(data_real, data_imag));
+            }
+            Vector<std::complex<float>> v1(f1);
+
+            std::cout << "enter size of second vector: ";
+            std::cin >> array_size;
+            std::cout << "fill vector: " << std::endl;
+            for (size_t i = 0; i < array_size; i++)
+            {
+                std::cout << "f" << i << "(real) = ";
+                std::cin >> data_real;
+
+                std::cout << "f" << i << "(imag) = ";
+                std::cin >> data_imag;
+                f2.push_back(std::complex<float>(data_real, data_imag));
+            }
+            Vector<std::complex<float>> v2(f2);
+            try {
+                std::cout << "the square of the triangle:" << get_square(v1, v2) << std::endl;
+            }
+            catch (std::exception& e) {
+                std::cout << "Error:" << std::endl;
+                std::cout << e.what() << std::endl;
+            }
+            break;
+        }
+        case 5:
+        {
+            system("cls");
+            std::cout << "you have selected the std::complex<double> data type" << std::endl;
+            std::cout << "you have to create and fill two vectors" << std::endl;
+            std::cout << "and then the program will calculate the square of the triangle" << std::endl;
+            std::cout << "enter size of first vector: ";
+            std::cin >> array_size;
+            std::vector<std::complex<double>> d1;
+            std::vector<std::complex<double>> d2;
+            std::cout << "fill vector: " << std::endl;
+            double data_real;
+            double data_imag;
+            for (size_t i = 0; i < array_size; i++)
+            {
+                std::cout << "d" << i << "(real) = ";
+                std::cin >> data_real;
+
+                std::cout << "d" << i << "(imag) = ";
+                std::cin >> data_imag;
+                d1.push_back(std::complex<double>(data_real, data_imag));
+            }
+            Vector<std::complex<double>> v1(d1);
+
+            std::cout << "enter size of second vector: ";
+            std::cin >> array_size;
+           
+            std::cout << "fill vector: " << std::endl;
+            for (size_t i = 0; i < array_size; i++)
+            {
+                std::cout << "d" << i << "(real) = ";
+                std::cin >> data_real;
+
+                std::cout << "d" << i << "(imag) = ";
+                std::cin >> data_imag;
+                d2.push_back(std::complex<double>(data_real, data_imag));
+            }
+            Vector<std::complex<double>> v2(d2);
+
+            try {
+                std::cout << "the square of the triangle:" << get_square(v1, v2) << std::endl;
+            }
+            catch (std::exception& e) {
+                std::cout << "Error:" << std::endl;
+                std::cout << e.what() << std::endl;
+            }
+            break;
+        }
+        case 6:
             programm_runner = false;
             system("cls");
             std::cout << "you have exited the program" << std::endl;

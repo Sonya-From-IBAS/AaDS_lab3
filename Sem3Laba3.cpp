@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <vector>
+#include <complex>
 
 //конструктор копирования, оператор присваивания и деструктор генерируются неявно компилятором.
 template<class T>
@@ -131,6 +132,29 @@ T operator*(const Vector<T>& v1, const Vector<T>& v2)
     return result;
 }
 
+template<class T>                   //для комплексных
+std::complex<T> operator*(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2)
+{
+    if (v1.GetSize() != v2.GetSize()) throw std::exception("Size doesn't match");
+    std::complex<T> result(0, 0);
+    for (int i = 0; i < v1.GetSize(); i++) {
+        result += std::complex<T>(v1[i].real() * v2[i].real() - v1[i].imag() * v2[i].imag(), v1[i].real() * v2[i].imag() + v1[i].imag() * v2[i].real());
+    }
+    return result;
+}
+
+
+template<class T>               //для задачки
+double multiple(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2)
+{
+    if (v1.GetSize() != v2.GetSize()) throw std::exception("Size doesn't match");
+    std::complex<T> result(0, 0);
+    for (int i = 0; i < v1.GetSize(); i++) {
+        result += std::complex<T>(v1[i].real() * v2[i].real() - v1[i].imag() * v2[i].imag(), v1[i].real() * v2[i].imag() + v1[i].imag() * v2[i].real());
+    }
+    return result.real();
+}
+
 
 //• оператор умножения вектора на скаляр(обеспечить коммутативность);
 template<class T>
@@ -180,9 +204,19 @@ bool operator ==(const Vector<T>& v1, const Vector<T>& v2) {
 }
 
 template<class T>
+bool operator ==(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2) {
+    if (v1.GetSize() != v2.GetSize()) throw std::exception("Size doesn't match");
+    for (int i = 0; i < v1.GetSize(); i++) {
+        if (!is_equal(v1[i].real(), v2[i].real()) || !is_equal(v1[i].imag(), v2[i].imag())) return false;
+    }
+    return true;
+}
+
+template<class T>
 bool operator !=(const Vector<T>& v1, const Vector<T>& v2) {
     return!(v1 == v2);
 }
+
 
 //Задача: Посчитать площадь треугольника, две стороны которого заданы радиус - векторами a и b.
 template<class T>
@@ -194,9 +228,30 @@ double vector_len(const Vector<T>& v) {
     return sqrt(len);
 }
 
+
+template<class T>
+T vector_len(const Vector<std::complex<T>>& v) {
+    T len = 0;
+    for (int i = 0; i < v.GetSize(); i++) {
+        len += std::abs(v[i]);
+    }
+    return len;
+}
+
+
 template<class T>
 double get_square(const Vector<T>& v1, const Vector<T>& v2) {
     double cos_alfa = (double)(v1 * v2) / (double)(vector_len(v1) * vector_len(v2));
+    double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
+    double square = vector_len(v1) * vector_len(v2) * sin_alfa / 2;
+    return square;
+}
+
+
+template<class T>
+T get_square(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2) {
+
+    double cos_alfa = multiple(v1, v2) / (vector_len(v1) * vector_len(v2));
     double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
     double square = vector_len(v1) * vector_len(v2) * sin_alfa / 2;
     return square;
@@ -359,3 +414,47 @@ int main()
         system("cls");
     }
 }
+
+
+//int main() {
+//    
+//    //int a[2] = { 1,4 };
+//    //float b[2] = { 2,9 };
+//    //double c[2] = { 3,9 };
+//
+//
+//    std::vector<int>a(1,4);
+//    std::vector<float>b(2,9);
+//    std::vector<double>c(3,9);
+//
+//    Vector<int> v1(a);
+//    Vector<float> v2(b);
+//    Vector<double> v3(c);
+//
+//
+//
+//    std::complex<float>f1(1, 0);
+//    std::complex<float>f2(1, 0);
+//    std::complex<float>e1(0, 0);
+//    std::complex<float>e2(1, 0);
+//
+//    std::vector<std::complex<float> > f;
+//    f.push_back(f1);
+//    f.push_back(f2);
+//
+//    std::vector<std::complex<float> > e;
+//    e.push_back(e1);
+//    e.push_back(e2);
+//
+//    Vector<std::complex<float> > v4(f);
+//    Vector<std::complex<float> > v5(e);
+//
+//
+//    std::cout << vector_len(v1) << std::endl;
+//    std::cout << vector_len(v2) << std::endl;
+//    std::cout << vector_len(v3) << std::endl;
+//    std::cout << vector_len(v4) << std::endl;
+//    std::cout << vector_len(v5) << std::endl;
+//    std::cout << get_square(v4, v5) << std::endl;
+//    return 0;
+//}
